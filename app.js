@@ -39,14 +39,15 @@ bot.on('message', message=>{
                 const embed = new Discord.MessageEmbed()
                     .setTitle(search.first.n)
                     .setColor("RANDOM")
-                    .setThumbnail(`${process.env.URL}/element/${search.first.n}`)
+                    .setThumbnail(`${process.env.URL}/element/${search.first.s}`)
                     .setDescription('Lewis schema :\n\nCaracteristics of the atom :')
                     .addFields(
                         {name: 'Symbol', value:search.first.s, inline: true},
                         {name: 'Atomic number', value: search.first.z, inline :true},
                         {name: 'Mass', value: search.first.a+' g/mol', inline: true},
                         {name: 'Layers', value: search.first.layers.filter(layer=>layer.e!==0).map(layer=>` ${layer.n}${exposant(layer.e)}`).join(' '), inline: true},
-                        {name: 'Underlays', value: search.first.subLayers.map(layer=>layer.map(sublayer=>`${sublayer[0]}${exposant(sublayer[1])}`).join(' ')).join(' '), inline: true})
+                        {name: 'Underlays', value: search.first.subLayers.map(layer=>layer.map(sublayer=>`${sublayer[0]}${exposant(sublayer[1])}`).join(' ')).join(' '), inline: true},
+                        {name: 'Lewis schema url', value: `${process.env.URL}/element/${search.first.s}`})
                     .setFooter('By Arthaud Proust', 'https://arthaud.dev/img/apple-touch-icon.png');
                 message.channel.send(embed);
             })
