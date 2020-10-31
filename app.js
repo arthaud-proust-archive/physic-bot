@@ -38,16 +38,16 @@ bot.on('message', message=>{
             Search(message, ['n', 's'], (msg, search)=>{
                 const embed = new Discord.MessageEmbed()
                     .setTitle(search.first.n)
-                    .setColor(0xffffff)
-                    .setImage(`${process.env.URL}/element/${search.first.n}`)
-                    .setDescription('Caracteristics of the atom :')
-                    .addField('Symbol', search.first.s, true)
-                    .addField('Atomic number', search.first.z, true)
-                    .addField('Mass', search.first.a+' g/mol', true)
-                    .addField('Layers', search.first.layers.map(layer=>{
-                        if(layer.e!==0) return(` ${layer.n}${exposant(layer.e)}`)
-                    }).join(' '), true)
-                    .addField('Underlays', search.first.subLayers.map(layer=>layer.map(sublayer=>`${sublayer[0]}${exposant(sublayer[1])}`).join(' ')).join(' '), true);
+                    .setColor("RANDOM")
+                    .setThumbnail(`${process.env.URL}/element/${search.first.n}`)
+                    .setDescription('Lewis schema :\n\nCaracteristics of the atom :')
+                    .addFields(
+                        {name: 'Symbol', value:search.first.s, inline: true},
+                        {name: 'Atomic number', value: search.first.z, inline :true},
+                        {name: 'Mass', value: search.first.a+' g/mol', inline: true},
+                        {name: 'Layers', value: search.first.layers.filter(layer=>layer.e!==0).map(layer=>` ${layer.n}${exposant(layer.e)}`).join(' '), inline: true},
+                        {name: 'Underlays', value: search.first.subLayers.map(layer=>layer.map(sublayer=>`${sublayer[0]}${exposant(sublayer[1])}`).join(' ')).join(' '), inline: true})
+                    .setFooter('By Arthaud Proust', 'https://arthaud.dev/img/apple-touch-icon.png');
                 message.channel.send(embed);
             })
         } catch(e) {
@@ -73,7 +73,7 @@ function roundedRect(ctx, x, y, width, height, radius) {
     ctx.fill();
 }
 
-// bot.login(process.env.APP_TOKEN);
+bot.login(process.env.APP_TOKEN);
 
 app.use(express.static(__dirname + '/web/styles'));     // Store all assets files in public folder.
 app.get('/', (req, res)=>res.sendFile(path.join(__dirname+'/web/app.html')));

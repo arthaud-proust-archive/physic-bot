@@ -140,7 +140,7 @@ function findAtoms(input, rules=['n']) {
     
     let result = atoms.length!==0;
     let first = result?new Atom(atoms[0].z):null;
-    console.log([atoms[0], first])
+    // console.log([atoms[0], first])
 
     let similars = rules.map(rule=>{
         if(rule =="z" || rule == "a") {
