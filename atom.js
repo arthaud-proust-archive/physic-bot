@@ -1,4 +1,19 @@
-const { SSL_OP_SINGLE_DH_USE } = require("constants");
+const { createCanvas } = require('canvas');
+
+
+const roundedRect = function(ctx, x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x, y + radius);
+    ctx.lineTo(x, y + height - radius);
+    ctx.arcTo(x, y + height, x + radius, y + height, radius);
+    ctx.lineTo(x + width - radius, y + height);
+    ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
+    ctx.lineTo(x + width, y + radius);
+    ctx.arcTo(x + width, y, x + width - radius, y, radius);
+    ctx.lineTo(x + radius, y);
+    ctx.arcTo(x, y, x, y + radius, radius);
+    ctx.fill();
+}
 
 const elements = [
     {z: 1, s: 'H', a:1.01, n: 'Hydrogène'},
@@ -214,7 +229,29 @@ class Atom {
         })
     }
 
+    get electionImage() {
+        const width = 130
+        const height = 130
 
+        const canvas = createCanvas(width, height)
+        const ctx = canvas.getContext('2d')
+        ctx.fillStyle = '#484848'
+        roundedRect(ctx, 0, 0, height, width, 20);
+
+        ctx.font = '60px Arial'
+        ctx.textAlign = 'center'
+        ctx.fillStyle = '#fff'
+        ctx.strokeStyle = '#fff'
+        ctx.lineWidth = 5
+        ctx.lineCap = 'round'
+        ctx.fillText(this.s, 64, 90)
+
+        for(let el of this.electronsArray) {
+            el.build(ctx)
+        }
+
+        return canvas.toBuffer('image/png')
+    }
 
     /* Renvoie les électrons de la dernière sous-couche de l'atome en format html */
     get electronsArray() {
