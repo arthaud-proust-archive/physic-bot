@@ -1,19 +1,5 @@
 const { createCanvas } = require('canvas');
-
-
-const roundedRect = function(ctx, x, y, width, height, radius) {
-    ctx.beginPath();
-    ctx.moveTo(x, y + radius);
-    ctx.lineTo(x, y + height - radius);
-    ctx.arcTo(x, y + height, x + radius, y + height, radius);
-    ctx.lineTo(x + width - radius, y + height);
-    ctx.arcTo(x + width, y + height, x + width, y + height-radius, radius);
-    ctx.lineTo(x + width, y + radius);
-    ctx.arcTo(x + width, y, x + width - radius, y, radius);
-    ctx.lineTo(x + radius, y);
-    ctx.arcTo(x, y, x, y + radius, radius);
-    ctx.fill();
-}
+const { roundedRect } = require('./utils');
 
 const elements = [
     {z: 1, s: 'H', a:1.01, n: 'Hydrogène'},
@@ -139,34 +125,6 @@ const elements = [
 
 
 
-function findAtoms(input, rules=['n']) {
-    if(input == "") return false;
-
-    input = input.charAt(0).toUpperCase() + input.slice(1).toLowerCase();   // Upper only the first letter, lower others
-    
-    let atoms = rules.map(rule=>{
-        if(rule =="z" || rule == "a") {
-            return(elements.filter(element=>element[rule] == parseFloat(input)));
-        } else {
-            return(elements.filter(element=>element[rule].toLowerCase() == input.toLowerCase()));
-        }
-    }).flat();
-
-    
-    let result = atoms.length!==0;
-    let first = result?new Atom(atoms[0].z):null;
-    // console.log([atoms[0], first])
-
-    let similars = rules.map(rule=>{
-        if(rule =="z" || rule == "a") {
-            return(elements.filter(element=>Math.round(element[rule]) == parseInt(input)));
-        } else {
-            return(elements.filter(element=>element[rule].toLowerCase().startsWith(input.toLowerCase())));
-        }
-    }).flat();
-    
-    return {result, first, atoms, similars};
-}
 
 
 class Atom {
@@ -309,6 +267,5 @@ class Atom {
 
 module.exports = {
     elements,
-    findAtoms,
     Atom,
 }
