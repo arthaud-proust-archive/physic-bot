@@ -14,7 +14,14 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "pm2start": "pm2 start app.js --name \"physic-bot\"",
+    "pm2delete": "pm2 delete \"physic-bot\"",
+    "pm2stop": "pm2 stop \"physic-bot\"",
+    "pm2restart": "pm2 stop \"physic-bot\"",
+    "pm2list": "pm2 list",
+    "pm2monit": "pm2 monit",
+    "pm2kill": "pm2 kill"
   },
   "author": "",
   "license": "ISC"
