@@ -12,7 +12,9 @@
     "express": "^4.17.1",
     "got": "^11.8.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "pm2": "^4.5.0"
+  },
   "scripts": {
     "start": "node app.js",
     "pm2start": "pm2 start app.js --name \"physic-bot\"",
