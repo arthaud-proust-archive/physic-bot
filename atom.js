@@ -181,10 +181,7 @@ class Atom {
     }
 
     get subLayers() {
-        return this.layers.map(layer=>{
-            if(layer.e==0) return ''
-            return layer.sub
-        })
+        return this.layers.filter(layer=>layer.e!==0).map(layer=>layer.sub).flat()
     }
 
     get electionImage() {
@@ -250,7 +247,6 @@ class Atom {
                     ctx.lineTo(cDouble[this.n-1].i, cDouble[this.n-1].j);
                     ctx.stroke();
                 }});
-                // html+=`<div class="elec-${j} double"></div>`;
             }
             for(j; j<=4; j++) {
                 arr.push({n:j, type:'single', build: function(ctx){
@@ -258,7 +254,6 @@ class Atom {
                     ctx.arc(cSingle[this.n-1].x, cSingle[this.n-1].y, 5, 0, Math.PI * 2);
                     ctx.fill();
                 }});
-                // html+=`<div class="elec-${j} single"></div>`;
             }
         }
         return arr;

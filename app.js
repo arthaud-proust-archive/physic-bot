@@ -13,13 +13,13 @@ const bot = new Discord.Client();
 /* bot event listeners */
 
 bot.on('ready', () => {
-    bot.user.setActivity(`element carbone`);
+    bot.user.setActivity(`/element carbone`);
     console.log(`Logged in as ${bot.user.tag}!`);
 });
 
 bot.on('message', message=>{
     if(message.author.id == bot.user.id) return
-    if(message.content.startsWith('element')) {
+    if(message.content.startsWith('/element')) {
         try {
             Search(message, ['n', 's'], (msg, search)=>{
                 const embed = new Discord.MessageEmbed()
@@ -32,7 +32,7 @@ bot.on('message', message=>{
                         {name: 'Numéro atomique', value: search.first.z, inline :true},
                         {name: 'Masse', value: search.first.a+' g/mol', inline: true},
                         {name: 'Couches électroniques', value: search.first.layers.filter(layer=>layer.e!==0).map(layer=>` ${layer.n}${exposant(layer.e)}`).join(' '), inline: false},
-                        {name: 'Sous-couches', value: search.first.subLayers.map(layer=>layer.map(sublayer=>`${sublayer[0]}${exposant(sublayer[1])}`).join(' ')).join(' '), inline: false})
+                        {name: 'Sous-couches', value: search.first.subLayers.filter(sublayer=>sublayer[1]!==0).map(sublayer=>`${sublayer[0]}${exposant(sublayer[1])}`).join(' '), inline: false})
                     .setFooter('Par Arthaud Proust', 'https://arthaud.dev/img/apple-touch-icon.png');
                 msg.channel.send(embed);
             })
